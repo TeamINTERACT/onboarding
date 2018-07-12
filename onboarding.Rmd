@@ -3,8 +3,9 @@ title: "INTERACT Onboarding"
 author: "Daniel Fuller"
 date: '2018-06-18'
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -70,6 +71,19 @@ https://support.rstudio.com/hc/en-us/articles/214510788-Setting-up-R-to-connect-
 https://db.rstudio.com/rstudio/connections/
 
 ### INTERACT Tasks
+
+You will now setup the connection to the server with the data. You will need to have USask credentials and VPN access to USask. If you have USask credentials you can find information on using the VPN here (https://www.usask.ca/ict/services/network-services/vpn/mac-106-intel-vpn.php). 
+
+**Make sure you are connected to the USask VPN**
+
+library(DBI)
+con <- dbConnect(odbc::odbc(),
+  driver = "PostgreSQL Driver",
+  database = "test_db",
+  uid = "postgres",
+  pwd = "password",
+  host = "localhost",
+  port = 5432)
 
 ##  RStudio + Github
 
