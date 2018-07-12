@@ -62,7 +62,9 @@ We hope that once you are done, you can confidently use the INTERACT workflow, d
 ### Tutorial
 
 https://github.com/AmeliaMN/IntroToR/blob/master/README.md
+
 https://ismayc.github.io/rbasics-book/6-errors.html
+
 https://www.datacamp.com/courses/free-introduction-to-r
 
 ### INTERACT Tasks
@@ -71,6 +73,7 @@ https://www.datacamp.com/courses/free-introduction-to-r
 
 ### Tutorial
 https://www.youtube.com/watch?v=-apyD5f9nwg
+
 https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf
 
 ### INTERACT Tasks
