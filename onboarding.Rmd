@@ -72,18 +72,44 @@ https://db.rstudio.com/rstudio/connections/
 
 ### INTERACT Tasks
 
+These are the steps you will need to follow
+1. Install PostgreSQL on your system. You can find the necessary files here (https://www.postgresql.org/download/)
+2. Install 
+
 You will now setup the connection to the server with the data. You will need to have USask credentials and VPN access to USask. If you have USask credentials you can find information on using the VPN here (https://www.usask.ca/ict/services/network-services/vpn/mac-106-intel-vpn.php). 
 
 **Make sure you are connected to the USask VPN**
 
+
+
+You will need to install the following libraries:
+```
+library(dbplyr)
+library(odbc)
 library(DBI)
-con <- dbConnect(odbc::odbc(),
-  driver = "PostgreSQL Driver",
-  database = "test_db",
-  uid = "postgres",
-  pwd = "password",
-  host = "localhost",
-  port = 5432)
+library(RPostgreSQL) 
+```    
+Now create a connection to the server using the `dbConnect` function. Using the `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
+
+```
+con <- dbConnect(odbc(),
+                 Driver = "SQLServer",
+                 Server = "mysqlhost",
+                 Database = "mydbname",
+                 UID = "myuser",
+                 PWD = rstudioapi::askForPassword("Database password")
+                 Port = 1433)
+```
+
+We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
+```{r]}
+con <- dbConnect(odbc(),
+                 Driver = "PostgreSQL",
+                 Host = "yakitori.usask.ca",
+                 Database = "interact_demo",
+                 UID = rstudioapi::askForPassword("Database user"),
+                 PWD = rstudioapi::askForPassword("Database password"))
+```
 
 ##  RStudio + Github
 

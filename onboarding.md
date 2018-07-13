@@ -3,8 +3,9 @@ title: "INTERACT Onboarding"
 author: "Daniel Fuller"
 date: '2018-06-18'
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  word_document: default
 ---
 
 
