@@ -112,27 +112,19 @@ library(odbc)
 library(DBI)
 library(RPostgreSQL) 
 ```    
-Now create a connection to the server using the `dbConnect` function. Using the `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
+Now create a connection to the server using the `dbConnect` function. Using the ` rstudioapi::askForPassword("Database user")` and `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
 
 ```
 con <- dbConnect(odbc(),
                  Driver = "SQLServer",
                  Server = "mysqlhost",
                  Database = "mydbname",
-                 UID = "myuser",
+                 UID = rstudioapi::askForPassword("Database user"),
                  PWD = rstudioapi::askForPassword("Database password")
                  Port = 1433)
 ```
 
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
-```{r]}
-con <- dbConnect(odbc(),
-                 Driver = "PostgreSQL",
-                 Host = "yakitori.usask.ca",
-                 Database = "interact_demo",
-                 UID = rstudioapi::askForPassword("Database user"),
-                 PWD = rstudioapi::askForPassword("Database password"))
-```
 
 ##  RStudio + Github
 
