@@ -3,8 +3,9 @@ title: "INTERACT Onboarding"
 author: "Daniel Fuller"
 date: '2018-06-18'
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -34,6 +35,8 @@ We hope that once you are done, you can confidently use the INTERACT workflow, d
 
 ## Glossary
 
+- Concatenation 
+    - In formal language theory and computer programming, string concatenation is the operation of joining character strings end-to-end. For example, the concatenation of "snow" and "ball" is "snowball". In some but not all formalisations of concatenation theory, also called string theory, string concatenation is a primitive notion. [wikipedia](https://en.wikipedia.org/wiki/Concatenation)
 - Database
     - A database is an organized collection of data, stored and accessed electronically. Database designers typically organize the data to model aspects of reality in a way that supports processes requiring information, such as (for example) modelling the availability of rooms in hotels in a way that supports finding a hotel with vacancies. [wikipedia](https://en.wikipedia.org/wiki/Database)
 - Git
@@ -56,13 +59,17 @@ We hope that once you are done, you can confidently use the INTERACT workflow, d
      - Tidy data is the data obtained as a result of a process called data tidying. It is one of the important cleaning processes during big data processing and is a recognized step in the practice of data science. Tidy data sets have structure and working with them is easy; they’re easy to manipulate, model and visualize. Tidy data sets main concept is to arrange data in a way that each variable is a column and each observation (or case) is a row. Tidy data provides standards and concepts for data cleaning, and with tidy data there’s no need to start from scratch and reinvent new methods for data cleaning.[wikipedia](https://en.wikipedia.org/wiki/Tidy_data) 
 - Syntax
     - In computer science, the syntax of a computer language is the set of rules that defines the combinations of symbols that are considered to be a correctly structured document or fragment in that language. This applies both to programming languages, where the document represents source code, and markup languages, where the document represents data. The syntax of a language defines its surface form. Text-based computer languages are based on sequences of characters, while visual programming languages are based on the spatial layout and connections between symbols (which may be textual or graphical). Documents that are syntactically invalid are said to have a syntax error.[wikipedia](https://en.wikipedia.org/wiki/Syntax_(programming_languages)) 
+- Tidy Data  
+     - Tidy data is the data obtained as a result of a process called data tidying. It is one of the important cleaning processes during big data processing and is a recognized step in the practice of data science. Tidy data sets have structure and working with them is easy; they’re easy to manipulate, model and visualize. Tidy data sets main concept is to arrange data in a way that each variable is a column and each observation (or case) is a row. Tidy data provides standards and concepts for data cleaning, and with tidy data there’s no need to start from scratch and reinvent new methods for data cleaning.[wikipedia](https://en.wikipedia.org/wiki/Tidy_data)  
 
 ## R + RStudio
 
 ### Tutorial
 
 https://github.com/AmeliaMN/IntroToR/blob/master/README.md
+
 https://ismayc.github.io/rbasics-book/6-errors.html
+
 https://www.datacamp.com/courses/free-introduction-to-r
 
 ### INTERACT Tasks
@@ -85,6 +92,37 @@ https://support.rstudio.com/hc/en-us/articles/214510788-Setting-up-R-to-connect-
 https://db.rstudio.com/rstudio/connections/
 
 ### INTERACT Tasks
+
+These are the steps you will need to follow
+1. Install PostgreSQL on your system. You can find the necessary files here (https://www.postgresql.org/download/)
+2. Install 
+
+You will now setup the connection to the server with the data. You will need to have USask credentials and VPN access to USask. If you have USask credentials you can find information on using the VPN here (https://www.usask.ca/ict/services/network-services/vpn/mac-106-intel-vpn.php). 
+
+**Make sure you are connected to the USask VPN**
+
+
+
+You will need to install the following libraries:
+```
+library(dbplyr)
+library(odbc)
+library(DBI)
+library(RPostgreSQL) 
+```    
+Now create a connection to the server using the `dbConnect` function. Using the ` rstudioapi::askForPassword("Database user")` and `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
+
+```
+con <- dbConnect(odbc(),
+                 Driver = "SQLServer",
+                 Server = "mysqlhost",
+                 Database = "mydbname",
+                 UID = rstudioapi::askForPassword("Database user"),
+                 PWD = rstudioapi::askForPassword("Database password")
+                 Port = 1433)
+```
+
+We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
 
 ##  RStudio + Github
 
