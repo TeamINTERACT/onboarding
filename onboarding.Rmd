@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > [Remember that there is no geek gene](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006023)
 
-The purpose of this document is to orient and provide guidance for new trainees and collaborators involved with the INTERACT study. Our aim is to make your integration onto the team straight forward, action oriented, and to help you learn new skills. 
+The purpose of this document is to orient and provide guidance for new trainees and collaborators involved with the INTERACT study. Our aim is to make your integration onto the team straight forward, action oriented, and to help you learn new skills. This document will likely take you between 2 and 3 days to work through. 
 
 This onboarding document is divided into 4 sections: 
 1. Glossary
@@ -63,6 +63,8 @@ We hope that once you are done, you can confidently use the INTERACT workflow, d
      - Tidy data is the data obtained as a result of a process called data tidying. It is one of the important cleaning processes during big data processing and is a recognized step in the practice of data science. Tidy data sets have structure and working with them is easy; they’re easy to manipulate, model and visualize. Tidy data sets main concept is to arrange data in a way that each variable is a column and each observation (or case) is a row. Tidy data provides standards and concepts for data cleaning, and with tidy data there’s no need to start from scratch and reinvent new methods for data cleaning.[wikipedia](https://en.wikipedia.org/wiki/Tidy_data)  
 
 ## R + RStudio
+
+The main tutorial, Intro To R, linked below, focuses on data wrangling and not on data analysis. If possible, please complete this tutorial using the RStudio software downloaded to your local computer, and not by using RStudio in your internet browser. Materials for the tutorial, including the instructional slides, can be downloaded as a ZIP file.
 
 ### Tutorial
 
@@ -125,6 +127,8 @@ con <- dbConnect(odbc(),
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
 
 ##  RStudio + Github
+
+Reminder: It is important to pull using RStudio before you commit your work and push again. 
 
 ## Glossary
 
