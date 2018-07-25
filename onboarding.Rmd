@@ -115,13 +115,11 @@ library(RPostgreSQL)
 Now create a connection to the server using the `dbConnect` function. Using the ` rstudioapi::askForPassword("Database user")` and `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
 
 ```
-require("RPostgreSQL")
-pw <- {"INTERACT_18"}
 drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname = "interact_demo",
                  host = "yakitori.usask.ca", port = 5432,
-                 user = "demo_user", password = pw)
-                 
+                 user = "rstudioapi::askForPassword("Database password", 
+                 password = rstudioapi::askForPassword("Database user"))
 ```
 
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
