@@ -119,7 +119,7 @@ drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname = "interact_demo",
                  host = "yakitori.usask.ca", port = 5432,
                  user = "rstudioapi::askForPassword("Database password", 
-                 password = rstudioapi::askForPassword("Database user"))
+                 password = rstudioapi::askForPassword("Database user")
 ```
 
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
