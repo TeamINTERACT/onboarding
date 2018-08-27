@@ -199,9 +199,9 @@ con <- dbConnect(drv, dbname = "interact_demo",
 
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
 
-The table names are accel_data and cchs. If you run this code and do not receive any error messages, this means that you have a connection. Now, if you run the code dbExistsTable(con, "cchs"), it should respond with true. This means that you are properly connected, and can use the connection "con" to interact with the database. Once you have successfully connected, you can try out exploring the test database data. For instance, to load all the data from the cchs table, you would run df_postgres <- dbGetQuery(con, "SELECT * from cchs"). If you only wanted data with certain criteria, you could try a code such as df_postgres <- dbGetQuery(con, "SELECT * from cchs where sdcgres > 5"). 
+The table names are accel_data and cchs. If you run this code and do not receive any error messages, this means that you have a connection. Now, if you run the code  `dbExistsTable(con, "cchs")`, it should respond with true. This means that you are properly connected, and can use the connection "con" to interact with the database. Once you have successfully connected, you can try out exploring the test database data. For instance, to load all the data from the cchs table, you would run `df_postgres <- dbGetQuery(con, "SELECT * from cchs")`. If you only wanted data with certain criteria, you could try a code such as `df_postgres <- dbGetQuery(con, "SELECT * from cchs where sdcgres > 5")`. 
 
-If you have been working from RStudio's console, you can view your work by looking at the environment window in the top right corner. Click on the arrow beside df_postgres. 
+If you have been working from RStudio's console, you can view your work by looking at the environment window in the top right corner. Click on the arrow beside `df_postgres`. 
 
 ##  RStudio + Github
 
