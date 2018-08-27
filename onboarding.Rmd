@@ -30,6 +30,7 @@ The goal is to point you to existing tutorials or training that will facilitate 
 
 - [Jenny Bryan](https://twitter.com/JennyBryan)
 - [Amelia McNamara](https://twitter.com/AmeliaMN)
+- [Chester Ismay and Patrick C. Kennedy](https://ismayc.github.io/rbasics-book/index.html)
 
 We hope that once you are done, you can confidently use the INTERACT workflow, do awesome analysis, and publish cool papers. 
 
@@ -70,11 +71,54 @@ The main tutorial, Intro To R, linked below, focuses on data wrangling and not o
 
 https://github.com/AmeliaMN/IntroToR/blob/master/README.md
 
-https://ismayc.github.io/rbasics-book/6-errors.html
 
-https://www.datacamp.com/courses/free-introduction-to-r
+##### Common Errors in R ([from Chester Ismay and Patrick C. Kennedy](https://ismayc.github.io/rbasics-book/index.html))
+
+1 Error: `could not find function`  
+
+This error usually occurs when a package has not been loaded into R via library, so R does not know where to find the specified function. It’s a good habit to use the library functions on all of the packages you will be using in the top R chunk in your R Markdown file, which is usually given the chunk name setup.  
+
+2 Error: `object not found`
+
+This error usually occurs when your R Markdown document refers to an object that has not been defined in an R chunk at or before that chunk. You’ll frequently see this when you’ve forgotten to copy code from your R Console sandbox back into a chunk in R Markdown.  
+
+3 Misspellings
+
+One of the most frustrating errors you can encounter in R is when you misspell the name of an object or function. R is not forgiving on this, and it won’t try to automatically figure out what you are referring to. You’ll usually be able to quite easily figure out that you made a typo because you’ll receive an object not found error.
+
+Remember that R is also case-sensitive, so if you called an object Name and then try to call it name later on without name being defined, you’ll receive an error.
+
+4 Unmatched parenthesis
+
+Another common error is forgetting or neglecting to finish a call to a function with a closing ). An example of this follows:
+
+`mean(x = c(1, 5, 10, 52)`  
+
+```
+Error in parse(text = x, srcfile = src) :
+ <text>:2:0: unexpected end of input
+1: mean(x = c(1, 5, 10, 52)
+  ^
+Calls: <Anonymous> ... evaluate -> parse_all -> parse_all.character -> parse
+Execution halted
+
+Exited with status 1.
+```
+
+In this case, there needs to be one more parenthesis added at the end of your call to mean:
+
+`mean(x = c(1, 5, 10, 52))`
+
+5 General guidelines
+
+Try your best to not be intimidated by R errors. Oftentimes, you will find that you are able to understand what they mean by carefully reading over them. When you can’t, carefully look over your R Markdown file again. You might also want to clear out all of your R environment and start at the top by running the chunks. Remember to only include what you deem your reader will need to follow your analysis.
+
+Even people who have worked with R and programmed for years still use Google and support websites like Stack Overflow to ask for help with their R errors or when they aren’t sure how to do something in R. I think you’ll be pleasantly surprised at just how much support is available.
 
 ### INTERACT Tasks
+
+1. Get the data
+1. 
 
 ## R Markdown
 
