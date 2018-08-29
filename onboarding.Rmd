@@ -137,7 +137,7 @@ Even people who have worked with R and programmed for years still use Google and
 7. Recode BMI to represent weight categories from underweight to obese (use `forcats`)
 8. Recode Province to include the province names instead of numbers 
 9. Compute the mean and standard deviation of height and weight (use `dplyr::summarize`)
-10. Compute the mean and standard deviation of height and weight (use `group_by` and `dplyr::summarize`)
+10. Compute the mean and standard deviation of height and weight based on Province. Then compute the mean and standard deviation of height and weight based on weight categories. (use `group_by` and `dplyr::summarize`)
 
 ##### Accel Data
 1. Read in the 2 data files `accel.csv` (use `read_csv`)
