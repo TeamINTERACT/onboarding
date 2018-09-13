@@ -121,20 +121,57 @@ summarize(
 
 ## Accel Data
 
-1. Read in the 2 data files accel.csv
-accel = read_csv("onboard/accel_data.csv")
+1. Read in the 2 data files `accel_participantX.csv`
+```
+accel_1 = read_csv("onboard/accel_participant1.csv")
+accel_2 = read_csv("onboard/accel_participant2.csv")
+```
 
 2. Create a new variable that indicates participant 1 and participant 2
+```
+accel_1$participant = 1
+accel_2$participant = 2
+```
+
 3. Append (stack) the 2 files together
+```
+accel_data = bind_rows(accel_1, accel_2)
+```
+
 4. Quickly view the first 10 rows of data
+```
+head(accel_data, 10)
+```
+
 5. Display the type of variable for all variables in the dataset
+```
+sapply(accel_data, class)
+```
+
 6. Create a scatterplot on x_axis and y_axis
-7. Compute the mean and standard deviation of height and weight
+```
+ggplot(accel_data, aes(x = x_axis, y = y_axis)) + geom_point()
+```
+
 8. Convert the time data to time format
-9. Compute the sum each of axis by second and by participant
+```
+accel_data <- accel_data %>% mutate(time = ymd_hms(substr(time, 1, nchar(time)-4)))
+```
+
+9. Compute the sum of each axis by second and by participant
+```
+summarize(
+    group_by(accel_data, time, participant),
+    avg_x = mean(x_axis),
+    avg_y = mean(y_axis),
+    avg_z = mean(z_axis)
+)
+```
+
 10. Compute the gravity subtracted vector magnitude sqrt(x^2, y^2, z^2)-1 on the new data for each participant
-
-
+```
+accel_avg$gravity <- sqrt(accel_avg$avg_x^2 + accel_avg$avg_y^2 + accel_avg$avg_z^2)-1
+```
 
 ## Database
 
