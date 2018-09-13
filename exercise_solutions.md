@@ -205,9 +205,33 @@ Ontario
 demo_cchs %>% filter(geogprv == 35) %>% select(caseid)
 ```
 
-6. Display the average BMI by province from the cchs table
+6. Get the average BMI by province from the cchs table
 ```
 demo_cchs %>% filter(hwtgbmi < 50) %>%
 	group_by(geogprv) %>%
 	summarise(avg_bmi = mean(hwtgbmi))
+```
+
+7. Using ggplot2, display a bar graph showing the average BMI by province
+```
+avg_bmi <- avg_bmi %>%
+    mutate(geogprv_name = case_when(
+        geogprv == 10 ~ "NFLD & LAB",
+        geogprv == 11 ~ "PEI",
+        geogprv == 12 ~ "NOVA SCOTIA",
+        geogprv == 13 ~ "NEW BRUNSWICK",
+        geogprv == 24 ~ "QUEBEC",
+        geogprv == 35 ~ "ONTARIO",
+        geogprv == 46 ~ "MANITOBA",
+        geogprv == 47 ~ "SASKATCHEWAN",
+        geogprv == 48 ~ "ALBERTA",
+        geogprv == 59 ~ "BRITISH COLUMBIA",
+        geogprv == 60 ~ "YUKON/NWT/NUNA",
+        geogprv == 96 ~ "NOT APPLICABLE",
+        geogprv == 97 ~ "DON'T KNOW",
+        geogprv == 98 ~ "REFUSAL",
+        TRUE ~ "NOT STATED"
+    ))
+ggplot(avg_bmi, aes(x=geogprv_name, y=avg_bmi)) +
+    geom_bar(stat="identity") + coord_flip()
 ```
