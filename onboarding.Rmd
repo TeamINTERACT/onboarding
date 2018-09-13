@@ -146,7 +146,6 @@ Even people who have worked with R and programmed for years still use Google and
 4. Quickly view the first 10 rows of data (use `head`)
 5. Display the type of variable for all variables in the dataset 
 6. Create a scatterplot on x_axis and y_axis (use `ggplot2`)
-6. Compute the mean and standard deviation of height and weight (use `dplyr::summarize`)
 7. Convert the time data to time format (use `lubridate`)
 8. Compute the sum each of axis by second and by participant (use `group_by` and `dplyr::summarize`)
 9. Compute the gravity subtracted vector magnitude `sqrt(x^2, y^2, z^2)-1` on the new data for each participant
@@ -207,7 +206,8 @@ If you have been working from RStudio's console, you can view your work by looki
 3. View the first ten rows of each table.
 4. Display rows from the cchs table where the data originates in Saskatchewan.
 5. Display only the caseid column from the cchs table, where the data originates from Ontario.
-6. Display the average BMI by province from the cchs table.
+6. Get the average BMI by province from the cchs table.
+7. Using ggplot2, display a bar graph showing the average BMI by province
 
 ##  RStudio + Github
 
