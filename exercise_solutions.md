@@ -121,20 +121,57 @@ summarize(
 
 ## Accel Data
 
-1. Read in the 2 data files accel.csv
-accel = read_csv("onboard/accel_data.csv")
+1. Read in the 2 data files `accel_participantX.csv`
+```
+accel_1 = read_csv("onboard/accel_participant1.csv")
+accel_2 = read_csv("onboard/accel_participant2.csv")
+```
 
 2. Create a new variable that indicates participant 1 and participant 2
+```
+accel_1$participant = 1
+accel_2$participant = 2
+```
+
 3. Append (stack) the 2 files together
+```
+accel_data = bind_rows(accel_1, accel_2)
+```
+
 4. Quickly view the first 10 rows of data
+```
+head(accel_data, 10)
+```
+
 5. Display the type of variable for all variables in the dataset
+```
+sapply(accel_data, class)
+```
+
 6. Create a scatterplot on x_axis and y_axis
-7. Compute the mean and standard deviation of height and weight
+```
+ggplot(accel_data, aes(x = x_axis, y = y_axis)) + geom_point()
+```
+
 8. Convert the time data to time format
-9. Compute the sum each of axis by second and by participant
+```
+accel_data <- accel_data %>% mutate(time = ymd_hms(substr(time, 1, nchar(time)-4)))
+```
+
+9. Compute the sum of each axis by second and by participant
+```
+summarize(
+    group_by(accel_data, time, participant),
+    avg_x = mean(x_axis),
+    avg_y = mean(y_axis),
+    avg_z = mean(z_axis)
+)
+```
+
 10. Compute the gravity subtracted vector magnitude sqrt(x^2, y^2, z^2)-1 on the new data for each participant
-
-
+```
+accel_avg$gravity <- sqrt(accel_avg$avg_x^2 + accel_avg$avg_y^2 + accel_avg$avg_z^2)-1
+```
 
 ## Database
 
@@ -168,9 +205,33 @@ Ontario
 demo_cchs %>% filter(geogprv == 35) %>% select(caseid)
 ```
 
-6. Display the average BMI by province from the cchs table
+6. Get the average BMI by province from the cchs table
 ```
 demo_cchs %>% filter(hwtgbmi < 50) %>%
 	group_by(geogprv) %>%
 	summarise(avg_bmi = mean(hwtgbmi))
+```
+
+7. Using ggplot2, display a bar graph showing the average BMI by province
+```
+avg_bmi <- avg_bmi %>%
+    mutate(geogprv_name = case_when(
+        geogprv == 10 ~ "NFLD & LAB",
+        geogprv == 11 ~ "PEI",
+        geogprv == 12 ~ "NOVA SCOTIA",
+        geogprv == 13 ~ "NEW BRUNSWICK",
+        geogprv == 24 ~ "QUEBEC",
+        geogprv == 35 ~ "ONTARIO",
+        geogprv == 46 ~ "MANITOBA",
+        geogprv == 47 ~ "SASKATCHEWAN",
+        geogprv == 48 ~ "ALBERTA",
+        geogprv == 59 ~ "BRITISH COLUMBIA",
+        geogprv == 60 ~ "YUKON/NWT/NUNA",
+        geogprv == 96 ~ "NOT APPLICABLE",
+        geogprv == 97 ~ "DON'T KNOW",
+        geogprv == 98 ~ "REFUSAL",
+        TRUE ~ "NOT STATED"
+    ))
+ggplot(avg_bmi, aes(x=geogprv_name, y=avg_bmi)) +
+    geom_bar(stat="identity") + coord_flip()
 ```
