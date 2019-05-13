@@ -1,0 +1,16 @@
+---
+title: "GIF"
+author: "Daniel Fuller"
+date: "13/05/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Post your GIF here
+
+### Daniel Fuller
+
+![](https://media.giphy.com/media/dJtoGmnupA00QaJitW/giphy.gif)
