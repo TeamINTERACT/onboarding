@@ -15,11 +15,11 @@ The goal is to point you to existing tutorials or training that will facilitate 
 We hope that once you are done, you can confidently use the INTERACT workflow, do awesome analysis, and publish cool papers. 
 
 This onboarding document is divided into 4 sections:
-1. [Glossary](https://github.com/TeamINTERACT/onboarding/blob/master/glossary.md)
-2. [R and RStudio](https://github.com/TeamINTERACT/onboarding/blob/master/r_rstudio.md)
-    * [Task Solutions](https://github.com/TeamINTERACT/onboarding/blob/master/exercise_solutions.md)
-3. [Databases and Compute Canada](https://github.com/TeamINTERACT/onboarding/blob/master/data_base_connections.md)
-4. [Github](https://github.com/TeamINTERACT/onboarding/blob/master/github_intro.md)
-    * [Post your GIF here](https://github.com/TeamINTERACT/onboarding/blob/master/gif.md)
+1. [Glossary](https://github.com/TeamINTERACT/onboarding/blob/master/glossary/glossary.md)
+2. [R and RStudio](https://github.com/TeamINTERACT/onboarding/blob/master/r_rstudio/r_rstudio.md)
+    * [Task Solutions](https://github.com/TeamINTERACT/onboarding/blob/master/r_rstudio/r_rstudio.md)
+3. [Databases and Compute Canada](https://github.com/TeamINTERACT/onboarding/blob/master/database/data_base_connections.md)
+4. [Github](https://github.com/TeamINTERACT/onboarding/blob/master/github/github_intro.md)
+    * [Post your GIF here](https://github.com/TeamINTERACT/onboarding/blob/github/master/gif.md)
 
 Each section includes a tutorial and specific INTERACT tasks that you will complete to should your knowlege. There are also exercise solutions for each of the tasks. 
