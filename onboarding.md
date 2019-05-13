@@ -5,7 +5,6 @@ date: '2018-06-18'
 output:
   html_document:
     keep_md: yes
-  word_document: default
 ---
 
 
@@ -135,7 +134,7 @@ Even people who have worked with R and programmed for years still use Google and
 7. Recode BMI to represent weight categories from underweight to obese (use `forcats`)
 8. Recode Province to include the province names instead of numbers 
 9. Compute the mean and standard deviation of height and weight (use `dplyr::summarize`)
-10. Compute the mean and standard deviation of height and weight (use `group_by` and `dplyr::summarize`)
+10. Compute the mean and standard deviation of height and weight based on Province. Then compute the mean and standard deviation of height and weight based on weight categories. (use `group_by` and `dplyr::summarize`)
 
 ##### Accel Data
 1. Read in the 2 data files `accel.csv` (use `read_csv`)
@@ -144,7 +143,6 @@ Even people who have worked with R and programmed for years still use Google and
 4. Quickly view the first 10 rows of data (use `head`)
 5. Display the type of variable for all variables in the dataset 
 6. Create a scatterplot on x_axis and y_axis (use `ggplot2`)
-6. Compute the mean and standard deviation of height and weight (use `dplyr::summarize`)
 7. Convert the time data to time format (use `lubridate`)
 8. Compute the sum each of axis by second and by participant (use `group_by` and `dplyr::summarize`)
 9. Compute the gravity subtracted vector magnitude `sqrt(x^2, y^2, z^2)-1` on the new data for each participant
@@ -170,7 +168,6 @@ https://db.rstudio.com/rstudio/connections/
 
 These are the steps you will need to follow
 1. Install PostgreSQL on your system. You can find the necessary files here (https://www.postgresql.org/download/)
-2. Install 
 
 You will now setup the connection to the server with the data. You will need to have USask credentials and VPN access to USask. If you have USask credentials you can find information on using the VPN here (https://www.usask.ca/ict/services/network-services/vpn/mac-106-intel-vpn.php). 
 
@@ -190,9 +187,9 @@ Now create a connection to the server using the `dbConnect` function. Using the 
 ```
 drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname = "interact_demo",
-                 host = "yakitori.usask.ca", port = 5432,
-                 user = "rstudioapi::askForPassword("Database password", 
-                 password = rstudioapi::askForPassword("Database user")
+                host = "yakitori.usask.ca", port = 5432,
+                user = rstudioapi::askForPassword("Database user"), 
+                password = rstudioapi::askForPassword("Database password"))
 ```
 
 We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
@@ -201,59 +198,12 @@ The table names are accel_data and cchs. If you run this code and do not receive
 
 If you have been working from RStudio's console, you can view your work by looking at the environment window in the top right corner. Click on the arrow beside `df_postgres`. 
 
-##  RStudio + Github
+### Additional INTERACT Tasks
+2. Open the connection to the interact_demo database, then use `tbl()` to get a reference to each of the tables in it.
+3. View the first ten rows of each table.
+4. Display rows from the cchs table where the data originates in Saskatchewan.
+5. Display only the caseid column from the cchs table, where the data originates from Ontario.
+6. Get the average BMI by province from the cchs table.
+7. Using ggplot2, display a bar graph showing the average BMI by province
 
-Reminder: It is important to pull using RStudio before you commit your work and push again. 
-
-## Glossary
-
-- Branch
-    - A branch is a parallel version of a repository. It is contained within the repository, but does not affect the primary or master branch allowing you to work freely without disrupting the "live" verison. When you've made the changes you want to make, you can merge your branch back into the master branch to publish your changes. [GitHub](https://help.github.com/articles/github-glossary/)
-
-![Git-it](http://jlord.us/git-it/assets/imgs/branches.png) 
-
-- Commit
-    - Committing is the process which records changes in the repository. Think of it as a snapshot of the current status of the project. Commits are done locally. [Sparkfun](https://learn.sparkfun.com/tutorials/using-github-to-share-with-sparkfun/committing-pushing-and-pulling)
-
-- Fork
-    - A fork is a personal copy of another user's repository that lives on your account. Forks allow you to freely make changes to a project without affecting the original. Forks remain attached to the original, allowing you to submit a pull request to the original's author to update with your changes. You can also keep your fork up to date by pulling in updates from the original. [GitHub](https://help.github.com/articles/github-glossary/)
-    
-![Data_School](https://www.dataschool.io/content/images/2014/Mar/github1.png)
-
-- Gist
-    - Gists are generally used as scratchpad/notepad, to write down small (or not so small) snippets of code or other information, written directly in the web interface, without the need to start a new project on your computer. [Quora](https://www.quora.com/What-is-a-GitHub-gist)
-
-- Git clone
-    - Git clone is a Git command line utility which is used to target an existing repository and create a clone, or copy of the target repository. [Atlassian](https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-clone)
-
-![Medium](https://cdn-images-1.medium.com/max/1600/0*LsQht149BNbsiv5x.png)
-
-- Pull request
-    - Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before the changes are merged into the repository. [GitHub Help](https://help.github.com/articles/about-pull-requests/)
-
-![YouTube](https://i.ytimg.com/vi/hSbJaIdqwKg/maxresdefault.jpg)
-
-- Push
-    - Git push is most commonly used to publish and upload local changes to a central repository. After a local repository has been modified a push is executed to share the modifications with remote team members. [Atlassian](https://www.atlassian.com/git/tutorials/syncing/git-push)
-
-![Git-it](http://jlord.us/git-it/assets/imgs/remotes.png)
-
-- 'Repo' (repository)
-    - The purpose of Git is to manage a project, or a set of files, as they change over time. git stores this information in a data structure called a repository. A git repository contains, among other things, the following: a set of commit objects, a set of references to commit objects, called heads. The Git repository is stored in the same directory as the project itself, in a subdirectory called .git. [SBF5](https://www.sbf5.com/~cduan/technical/git/git-1.shtml)
-
-![Microsoft](https://docs.microsoft.com/en-us/azure/devops/_img/git_repositories.png)
-
-### Tutorial
-
-http://happygitwithr.com/
-
-### Helpful Links for GitHub Support
-
-https://blog.red-badger.com/blog/2016/11/29/gitgithub-in-plain-english
-
-https://help.github.com/
-
-https://github.community/
-
-### INTERACT Tasks
 
