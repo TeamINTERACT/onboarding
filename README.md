@@ -17,6 +17,7 @@ We hope that once you are done, you can confidently use the INTERACT workflow, d
 This onboarding document is divided into 4 sections:
 1. [Glossary](https://github.com/TeamINTERACT/onboarding/blob/master/glossary.md)
 2. [R and RStudio](https://github.com/TeamINTERACT/onboarding/blob/master/r_rstudio.md)
+    * [Task Solutions](https://github.com/TeamINTERACT/onboarding/blob/master/exercise_solutions.md)
 3. [Databases and Compute Canada](https://github.com/TeamINTERACT/onboarding/blob/master/data_base_connections.md)
 4. [Github](https://github.com/TeamINTERACT/onboarding/blob/master/github_intro.md)
 
