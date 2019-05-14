@@ -22,7 +22,7 @@ output:
 
 ### Gabrielle Rancourt & Luana Fragoso 
 
-![](https://gph.is/2cBI0eO)
+![](https://media.giphy.com/media/111ebonMs90YLu/giphy.gif)
 
 
 ### Martine Shareck
