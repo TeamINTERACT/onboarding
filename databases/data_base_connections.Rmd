@@ -1,7 +1,7 @@
 ---
 title: "Databases and Compute Canada"
-author: "Daniel Fuller"
-date: "13/05/2019"
+author: "Daniel Fuller, Benoit Thierry"
+date: "25/10/2023"
 output:
   html_document:
     keep_md: yes
@@ -13,44 +13,92 @@ https://support.rstudio.com/hc/en-us/articles/214510788-Setting-up-R-to-connect-
 
 https://db.rstudio.com/rstudio/connections/
 
-### INTERACT Tasks
+### Prerequisites
 
 These are the steps you will need to follow
-1. Install PostgreSQL on your system. You can find the necessary files here (https://www.postgresql.org/download/)
 
-You will now setup the connection to the server with the data. You will need to have USask credentials and VPN access to USask. If you have USask credentials you can find information on using the VPN here (https://www.usask.ca/ict/services/network-services/vpn/mac-106-intel-vpn.php). 
+1. Install PostgreSQL on your system. You can find the necessary files [here](https://www.postgresql.org/download/)
+2. Install pgAdmin on your system (optional). You can find the necessary files [here](https://www.pgadmin.org/download/)
+3. Install latest version of Microsoft PowerShell (which includes a ssh client). You can find the necessary files [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+  
+You will now setup the connection to the server with the data. You will need to have Compute Canada credentials and a SSH client (included with PowerShell).
 
-**Make sure you are connected to the USask VPN**
+### Connecting to CC database
 
-You will need to install the following libraries:
+In order to access the CC database and work locally with the data, you will need to open a SSH tunnel that will map the remote database to a local address on your computer (more details can be found on [CC Wiki](https://docs.alliancecan.ca/wiki/SSH_tunnelling)). From a PowerShell or another Shell on UNIX flavored OSes, create the SSH tunnel:
+
+```sh
+ssh -L 5433:cedar-pgsql-vm.int.cedar.computecanada.ca:5432 <YOUR_CC_USERNAME>@cedar.computecanada.ca 
 ```
-library(dbplyr)
-library(odbc)
+
+This will let you access the CC database cluster from your computer at the address `localhost:5433`. (You can use another port instead of `5433` if this one is already in use.)
+
+Once the SSH tunnel created, you can access the `interact_db` target database using standard clients from your computer, _e.g._ `psql` or pgAdmin. For instance:
+
+```sh
+psql -U <YOUR_CC_USERNAME> -h localhost -p 5433 interact_db
+```
+
+Note that once the SSH tunnel has been established, you will no longer have to provide your password, nor save it somewhere in your script as all users logged on CC are automatically authenticated on the database cluster.
+
+This method allows to retrieve the latest version of the survey datasets (corresponding Github hash indicated in the schema's comments/description, see below), while avoiding to store any data on the local drive _as long as you don't save the RData environment when closing R/Rstudio_.
+
+#### Listing the data available
+
+Interact surveys are stored under three schemas (_i.e._ DB equivalent of folders, see [definition](https://www.postgresql.org/docs/16/glossary.html#GLOSSARY-SCHEMA)) named `tk_survey`, `tk_survey2` and `tk_survey3`:
+
+```
+interact_db=>\dn+ tk_survey*
+                                   List of schemas
+    Name    |                                 Description
+------------+-----------------------------------------------------------------------
+ tk_survey  | Stores wave 1 survey data from Treksoft as well as reformatting views
+ tk_survey2 | Stores wave 2 survey data from Treksoft as well as reformatting views
+ tk_survey3 | Stores wave 3 survey data from Treksoft as well as reformatting views
+(3 rows)
+```
+
+Within each schema, data is organized in materialized views (see [definition](https://www.postgresql.org/docs/16/glossary.html#GLOSSARY-MATERIALIZED-VIEW)) with names expressing the survey type (`eligibility`, `health`, `veritas`), the city (`mtl`, `skt`, `van`, `vic`) prefixed with the wave number and the subcategory of data extracted from the survey (`main` or other subcategories, depending on the survey type). From wave 2 on, returning and new participants have separate materialized views, with a `new` suffix appended to names of materialized views of new participants.
+
+To illustrate the naming convention above, here are a few examples of materialized views and their explanation (note that materialized views need to be prefixed with the schema they belong to):
+
+- `tk_survey2.eligibility_2mtl_main`: Eligibility questionnaire for returning participants in Montréal, wave 2
+- `tk_survey2.eligibility_2mtlnew_main`: Eligibility questionnaire for new participants in Montréal, wave 2
+- `tk_survey2.veritas_2skt_location`: Locations (points) extracted from the VERITAS questionnaire of returning participants in Saskatoon, wave 2
+- `tk_survey2.health_2vicnew_main`: Health questionnaire for new participants in Victoria, wave 2
+
+### Getting the data
+
+In order to access the Interact data from _R_, you will need to install the following libraries:
+
+```r
 library(DBI)
-library(RPostgreSQL) 
+library(RPostgres) 
 ```    
-Now create a connection to the server using the `dbConnect` function. Using the ` rstudioapi::askForPassword("Database user")` and `rstudioapi::askForPassword("Database password")` function allows you to share code without sharing the password. **Never store your password in code!**
 
-```
-drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, dbname = "interact_demo",
-                host = "yakitori.usask.ca", port = 5432,
-                user = rstudioapi::askForPassword("Database user"), 
-                password = rstudioapi::askForPassword("Database password"))
+Then, to access the database, you need to create a connection object in R:
+
+```r
+con <- dbConnect(Postgres(), host="localhost", port=5433, user = "<YOUR_CC_USERNAME>", dbname = "interact_db")
 ```
 
-We have provided you with a test username and test password for this tutorial. This will allow you to test the connect and make sure you can access the data. There is official INTERACT data here. 
+Then, using the `con` object, it is possible to get the data from one materialized view, for instance:
 
-The table names are accel_data and cchs. If you run this code and do not receive any error messages, this means that you have a connection. Now, if you run the code  `dbExistsTable(con, "cchs")`, it should respond with true. This means that you are properly connected, and can use the connection "con" to interact with the database. Once you have successfully connected, you can try out exploring the test database data. For instance, to load all the data from the cchs table, you would run `df_postgres <- dbGetQuery(con, "SELECT * from cchs")`. If you only wanted data with certain criteria, you could try a code such as `df_postgres <- dbGetQuery(con, "SELECT * from cchs where sdcgres > 5")`. 
+```r
+elig2mtl <- dbReadTable(con, Id(schema = "tk_survey2", table = "eligibility_2mtl_main"))
+```
 
-If you have been working from RStudio's console, you can view your work by looking at the environment window in the top right corner. Click on the arrow beside `df_postgres`. 
+It is also possible to carve your own query:
 
-### Additional INTERACT Tasks
-2. Open the connection to the interact_demo database, then use `tbl()` to get a reference to each of the tables in it.
-3. View the first ten rows of each table.
-4. Display rows from the cchs table where the data originates in Saskatchewan.
-5. Display only the caseid column from the cchs table, where the data originates from Ontario.
-6. Get the average BMI by province from the cchs table.
-7. Using ggplot2, display a bar graph showing the average BMI by province
+```r
+age2mtl <- dbGetQuery(con, "SELECT interact_id, age FROM tk_survey2.health_2mtl_main UNION SELECT interact_id, age FROM tk_survey2.health_2mtlnew_main")
+```
 
+When working in R Markdown, it is possible to leverage the multiple code languages recognized by Rmd to directly retrieve data from the database using SQL queries and have the resulting data stored in a DataFrame:
+
+````{verbatim}
+```{sql, connection=con, output.var="health1mtl"}
+SELECT * FROM tk_survey.health_1mtl_main
+```
+````
 
