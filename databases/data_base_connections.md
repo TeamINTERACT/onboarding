@@ -35,7 +35,7 @@ This will let you access the CC database cluster from your computer at the addre
 
 Once the SSH tunnel created, you can access the `interact_db` target database using standard clients from your computer, _e.g._ `psql` or pgAdmin. For instance:
 
-```bash
+```sh
 psql -U <YOUR_CC_USERNAME> -h localhost -p 5433 interact_db
 ```
 
@@ -103,3 +103,10 @@ SELECT * FROM tk_survey.health_1mtl_main
 ```
 ````
 
+Spatial data can also be read directly into R using `sf` package:
+
+```r
+library(sf)
+
+veritas_locs <- st_read(con, layer = Id(schema = "tk_survey", table = "veritas_1mtl_location"))
+```

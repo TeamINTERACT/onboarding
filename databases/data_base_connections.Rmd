@@ -102,3 +102,10 @@ SELECT * FROM tk_survey.health_1mtl_main
 ```
 ````
 
+Spatial data can also be read directly into R using `sf` package:
+
+```r
+library(sf)
+
+veritas_locs <- st_read(con, layer = Id(schema = "tk_survey", table = "veritas_1mtl_location"))
+```

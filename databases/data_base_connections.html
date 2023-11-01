@@ -391,7 +391,7 @@ instead of <code>5433</code> if this one is already in use.)</p>
 <code>interact_db</code> target database using standard clients from
 your computer, <em>e.g.</em> <code>psql</code> or pgAdmin. For
 instance:</p>
-<pre class="bash"><code>psql -U &lt;YOUR_CC_USERNAME&gt; -h localhost -p 5433 interact_db</code></pre>
+<pre class="sh"><code>psql -U &lt;YOUR_CC_USERNAME&gt; -h localhost -p 5433 interact_db</code></pre>
 <p>Note that once the SSH tunnel has been established, you will no
 longer have to provide your password, nor save it somewhere in your
 script as all users logged on CC are automatically authenticated on the
@@ -461,6 +461,11 @@ DataFrame:</p>
 <pre class="default"><code>```{sql, connection=con, output.var=&quot;health1mtl&quot;}
 SELECT * FROM tk_survey.health_1mtl_main
 ```</code></pre>
+<p>Spatial data can also be read directly into R using <code>sf</code>
+package:</p>
+<pre class="r"><code>library(sf)
+
+veritas_locs &lt;- st_read(con, layer = Id(schema = &quot;tk_survey&quot;, table = &quot;veritas_1mtl_location&quot;))</code></pre>
 </div>
 
 
