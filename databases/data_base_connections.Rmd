@@ -1,7 +1,7 @@
 ---
 title: "Databases and Compute Canada"
 author: "Daniel Fuller, Benoit Thierry"
-date: "25/10/2023"
+date: "`r Sys.Date()`"
 output:
   html_document:
     keep_md: yes
@@ -17,9 +17,9 @@ https://db.rstudio.com/rstudio/connections/
 
 These are the steps you will need to follow
 
-1. Install PostgreSQL on your system. You can find the necessary files [here](https://www.postgresql.org/download/)
+1. Install PostgreSQL on your system. You can find the necessary files [here](https://www.postgresql.org/download/) (_NB:_ you may need to add the path to the PostgreSQL bin to your system PATH env variable)
 2. Install pgAdmin on your system (optional). You can find the necessary files [here](https://www.pgadmin.org/download/)
-3. Install latest version of Microsoft PowerShell (which includes a ssh client). You can find the necessary files [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+3. Check that you have a SSH client installed; if not Install the latest version of Microsoft PowerShell (which includes a ssh client). You can find the necessary files [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
   
 You will now setup the connection to the server with the data. You will need to have Compute Canada credentials and a SSH client (included with PowerShell).
 
@@ -31,13 +31,15 @@ In order to access the CC database and work locally with the data, you will need
 ssh -L 5433:cedar-pgsql-vm.int.cedar.computecanada.ca:5432 <YOUR_CC_USERNAME>@cedar.computecanada.ca 
 ```
 
-This will let you access the CC database cluster from your computer at the address `localhost:5433`. (You can use another port instead of `5433` if this one is already in use.)
+This will let you access the CC database cluster from your computer at the address `localhost:5433`. (You can use another port instead of `5433` if this one is already in use.) **The shell from which the ssh tunnel has been opened needs to stay open for the duration of your database work.**
 
-Once the SSH tunnel created, you can access the `interact_db` target database using standard clients from your computer, _e.g._ `psql` or pgAdmin. For instance:
+Once the SSH tunnel created, you can access the `interact_db` target database using standard pg clients from your computer, _e.g._ `psql` or pgAdmin. For instance, you can type the following command in a second shell on your computer:
 
 ```sh
 psql -U <YOUR_CC_USERNAME> -h localhost -p 5433 interact_db
 ```
+
+(_NB._ The `psql` command issued on a CC node is different, more can be found on [CC wiki](https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server).)
 
 Note that once the SSH tunnel has been established, you will no longer have to provide your password, nor save it somewhere in your script as all users logged on CC are automatically authenticated on the database cluster.
 
@@ -60,14 +62,33 @@ interact_db=>\dn+ tk_survey*
 
 Within each schema, data is organized in materialized views (see [definition](https://www.postgresql.org/docs/16/glossary.html#GLOSSARY-MATERIALIZED-VIEW)) with names expressing the survey type (`eligibility`, `health`, `veritas`), the city (`mtl`, `skt`, `van`, `vic`) prefixed with the wave number and the subcategory of data extracted from the survey (`main` or other subcategories, depending on the survey type). From wave 2 on, returning and new participants have separate materialized views, with a `new` suffix appended to names of materialized views of new participants.
 
-To illustrate the naming convention above, here are a few examples of materialized views and their explanation (note that materialized views need to be prefixed with the schema they belong to):
+To illustrate the naming convention above, here is a few examples of materialized views and their explanation (note that materialized views need to be prefixed with the schema they belong to):
 
 - `tk_survey2.eligibility_2mtl_main`: Eligibility questionnaire for returning participants in Montréal, wave 2
 - `tk_survey2.eligibility_2mtlnew_main`: Eligibility questionnaire for new participants in Montréal, wave 2
 - `tk_survey2.veritas_2skt_location`: Locations (points) extracted from the VERITAS questionnaire of returning participants in Saskatoon, wave 2
 - `tk_survey2.health_2vicnew_main`: Health questionnaire for new participants in Victoria, wave 2
 
+In addition to the survey data, researchers have access to the _essence tables_, located in the `essence_table` schema which contains the following tables:
+
+```
+interact_db=> \dt essence_table.*
+                   List of relations
+    Schema     |           Name           | Type  
+---------------+--------------------------+-------
+ essence_table | essence_activity_space   | table 
+ essence_table | essence_health           | table 
+ essence_table | essence_naud_social      | table 
+ essence_table | essence_neighborhood500m | table 
+ essence_table | essence_perchoux_tbx     | table 
+(5 rows)
+```
+
+These tables comprise a selection of the most commonly used INTERACT variables combined with a series of derived variables for participants from all cities and waves, see [data dictionary](https://teaminteract.ca/ressources/INTERACT_datadict.html#essence_title) for more info. The `essence_neighborhood500m` contains the 500m network buffers used to derive some of the spatial indicators.
+
 ### Getting the data
+
+#### Using R
 
 In order to access the Interact data from _R_, you will need to install the following libraries:
 
@@ -108,4 +129,20 @@ Spatial data can also be read directly into R using `sf` package:
 library(sf)
 
 veritas_locs <- st_read(con, layer = Id(schema = "tk_survey", table = "veritas_1mtl_location"))
+```
+
+#### Using Python
+
+The prefered mode to access the data stored in the pg database relies on [`pandas`](https://pandas.pydata.org/):
+
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Create SQLAlchemy connection engine
+engine = create_engine("postgresql+psycopg2://<YOUR_CC_USERNAME>:@localhost:5433/interact_db")
+
+# Get the data
+df = pd.read_sql("SELECT * FROM tk_survey2.health_2mtl_main", engine)
+print(df)
 ```

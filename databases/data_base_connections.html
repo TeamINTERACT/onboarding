@@ -11,6 +11,7 @@
 
 <meta name="author" content="Daniel Fuller, Benoit Thierry" />
 
+<meta name="date" content="2023-11-08" />
 
 <title>Databases and Compute Canada</title>
 
@@ -351,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Databases and Compute Canada</h1>
 <h4 class="author">Daniel Fuller, Benoit Thierry</h4>
-<h4 class="date">25/10/2023</h4>
+<h4 class="date">2023-11-08</h4>
 
 </div>
 
@@ -366,11 +367,14 @@ display: none;
 <p>These are the steps you will need to follow</p>
 <ol style="list-style-type: decimal">
 <li>Install PostgreSQL on your system. You can find the necessary files
-<a href="https://www.postgresql.org/download/">here</a></li>
+<a href="https://www.postgresql.org/download/">here</a> (<em>NB:</em>
+you may need to add the path to the PostgreSQL bin to your system PATH
+env variable)</li>
 <li>Install pgAdmin on your system (optional). You can find the
 necessary files <a href="https://www.pgadmin.org/download/">here</a></li>
-<li>Install latest version of Microsoft PowerShell (which includes a ssh
-client). You can find the necessary files <a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell">here</a></li>
+<li>Check that you have a SSH client installed; if not Install the
+latest version of Microsoft PowerShell (which includes a ssh client).
+You can find the necessary files <a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell">here</a></li>
 </ol>
 <p>You will now setup the connection to the server with the data. You
 will need to have Compute Canada credentials and a SSH client (included
@@ -386,12 +390,18 @@ tunnel:</p>
 <pre class="sh"><code>ssh -L 5433:cedar-pgsql-vm.int.cedar.computecanada.ca:5432 &lt;YOUR_CC_USERNAME&gt;@cedar.computecanada.ca </code></pre>
 <p>This will let you access the CC database cluster from your computer
 at the address <code>localhost:5433</code>. (You can use another port
-instead of <code>5433</code> if this one is already in use.)</p>
+instead of <code>5433</code> if this one is already in use.) <strong>The
+shell from which the ssh tunnel has been opened needs to stay open for
+the duration of your database work.</strong></p>
 <p>Once the SSH tunnel created, you can access the
-<code>interact_db</code> target database using standard clients from
-your computer, <em>e.g.</em> <code>psql</code> or pgAdmin. For
-instance:</p>
+<code>interact_db</code> target database using standard pg clients from
+your computer, <em>e.g.</em> <code>psql</code> or pgAdmin. For instance,
+you can type the following command in a second shell on your
+computer:</p>
 <pre class="sh"><code>psql -U &lt;YOUR_CC_USERNAME&gt; -h localhost -p 5433 interact_db</code></pre>
+<p>(<em>NB.</em> The <code>psql</code> command issued on a CC node is
+different, more can be found on <a href="https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server">CC
+wiki</a>.)</p>
 <p>Note that once the SSH tunnel has been established, you will no
 longer have to provide your password, nor save it somewhere in your
 script as all users logged on CC are automatically authenticated on the
@@ -424,7 +434,7 @@ wave number and the subcategory of data extracted from the survey
 type). From wave 2 on, returning and new participants have separate
 materialized views, with a <code>new</code> suffix appended to names of
 materialized views of new participants.</p>
-<p>To illustrate the naming convention above, here are a few examples of
+<p>To illustrate the naming convention above, here is a few examples of
 materialized views and their explanation (note that materialized views
 need to be prefixed with the schema they belong to):</p>
 <ul>
@@ -438,10 +448,31 @@ Saskatoon, wave 2</li>
 <li><code>tk_survey2.health_2vicnew_main</code>: Health questionnaire
 for new participants in Victoria, wave 2</li>
 </ul>
+<p>In addition to the survey data, researchers have access to the
+<em>essence tables</em>, located in the <code>essence_table</code>
+schema which contains the following tables:</p>
+<pre><code>interact_db=&gt; \dt essence_table.*
+                   List of relations
+    Schema     |           Name           | Type  
+---------------+--------------------------+-------
+ essence_table | essence_activity_space   | table 
+ essence_table | essence_health           | table 
+ essence_table | essence_naud_social      | table 
+ essence_table | essence_neighborhood500m | table 
+ essence_table | essence_perchoux_tbx     | table 
+(5 rows)</code></pre>
+<p>These tables comprise a selection of the most commonly used INTERACT
+variables combined with a series of derived variables for participants
+from all cities and waves, see <a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#essence_title">data
+dictionary</a> for more info. The <code>essence_neighborhood500m</code>
+contains the 500m network buffers used to derive some of the spatial
+indicators.</p>
 </div>
 </div>
 <div id="getting-the-data" class="section level3">
 <h3>Getting the data</h3>
+<div id="using-r" class="section level4">
+<h4>Using R</h4>
 <p>In order to access the Interact data from <em>R</em>, you will need
 to install the following libraries:</p>
 <pre class="r"><code>library(DBI)
@@ -466,6 +497,21 @@ package:</p>
 <pre class="r"><code>library(sf)
 
 veritas_locs &lt;- st_read(con, layer = Id(schema = &quot;tk_survey&quot;, table = &quot;veritas_1mtl_location&quot;))</code></pre>
+</div>
+<div id="using-python" class="section level4">
+<h4>Using Python</h4>
+<p>The prefered mode to access the data stored in the pg database relies
+on <a href="https://pandas.pydata.org/"><code>pandas</code></a>:</p>
+<pre class="python"><code>import pandas as pd
+from sqlalchemy import create_engine
+
+# Create SQLAlchemy connection engine
+engine = create_engine(&quot;postgresql+psycopg2://&lt;YOUR_CC_USERNAME&gt;:@localhost:5433/interact_db&quot;)
+
+# Get the data
+df = pd.read_sql(&quot;SELECT * FROM tk_survey2.health_2mtl_main&quot;, engine)
+print(df)</code></pre>
+</div>
 </div>
 
 
