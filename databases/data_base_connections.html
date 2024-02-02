@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel Fuller, Benoit Thierry" />
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2024-02-02" />
 
 <title>Databases and Compute Canada</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Databases and Compute Canada</h1>
 <h4 class="author">Daniel Fuller, Benoit Thierry</h4>
-<h4 class="date">2023-11-08</h4>
+<h4 class="date">2024-02-02</h4>
 
 </div>
 
@@ -399,6 +399,8 @@ your computer, <em>e.g.</em> <code>psql</code> or pgAdmin. For instance,
 you can type the following command in a second shell on your
 computer:</p>
 <pre class="sh"><code>psql -U &lt;YOUR_CC_USERNAME&gt; -h localhost -p 5433 interact_db</code></pre>
+<p>Use the command below to get into CC</p>
+<pre class="sh"><code>psql -h cedar-pgsql-vm -d interact_db</code></pre>
 <p>(<em>NB.</em> The <code>psql</code> command issued on a CC node is
 different, more can be found on <a href="https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server">CC
 wiki</a>.)</p>
@@ -411,6 +413,14 @@ datasets (corresponding Github hash indicated in the schema’s
 comments/description, see below), while avoiding to store any data on
 the local drive <em>as long as you don’t save the RData environment when
 closing R/Rstudio</em>.</p>
+<div id="database-permissions" class="section level4">
+<h4>Database permissions</h4>
+<p>You will need to be given access to the specific databases in order
+to be able to access the data. You will be able to see the views of the
+databases but won’t be able to load them into R. Get in touch with
+Benoit and send <YOUR_CC_USERNAME> to get access. If loading in the data
+is not working it’s most likely because you don’t have access.</p>
+</div>
 <div id="listing-the-data-available" class="section level4">
 <h4>Listing the data available</h4>
 <p>Interact surveys are stored under three schemas (<em>i.e.</em> DB

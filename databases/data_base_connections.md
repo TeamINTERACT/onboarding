@@ -1,7 +1,7 @@
 ---
 title: "Databases and Compute Canada"
 author: "Daniel Fuller, Benoit Thierry"
-date: "2023-11-08"
+date: "2024-02-02"
 output:
   html_document:
     keep_md: yes
@@ -39,11 +39,22 @@ Once the SSH tunnel created, you can access the `interact_db` target database us
 psql -U <YOUR_CC_USERNAME> -h localhost -p 5433 interact_db
 ```
 
+Use the command below to get into CC 
+
+```sh
+psql -h cedar-pgsql-vm -d interact_db
+```
+
 (_NB._ The `psql` command issued on a CC node is different, more can be found on [CC wiki](https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server).)
+
 
 Note that once the SSH tunnel has been established, you will no longer have to provide your password, nor save it somewhere in your script as all users logged on CC are automatically authenticated on the database cluster.
 
 This method allows to retrieve the latest version of the survey datasets (corresponding Github hash indicated in the schema's comments/description, see below), while avoiding to store any data on the local drive _as long as you don't save the RData environment when closing R/Rstudio_.
+
+#### Database permissions
+
+You will need to be given access to the specific databases in order to be able to access the data. You will be able to see the views of the databases but won't be able to load them into R. Get in touch with Benoit and send <YOUR_CC_USERNAME> to get access. If loading in the data is not working it's most likely because you don't have access. 
 
 #### Listing the data available
 
