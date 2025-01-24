@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel Fuller, Benoit Thierry" />
 
-<meta name="date" content="2023-11-08" />
+<meta name="date" content="2025-01-24" />
 
 <title>Databases and Compute Canada</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Databases and Compute Canada</h1>
 <h4 class="author">Daniel Fuller, Benoit Thierry</h4>
-<h4 class="date">2023-11-08</h4>
+<h4 class="date">2025-01-24</h4>
 
 </div>
 
@@ -511,6 +511,475 @@ engine = create_engine(&quot;postgresql+psycopg2://&lt;YOUR_CC_USERNAME&gt;:@loc
 # Get the data
 df = pd.read_sql(&quot;SELECT * FROM tk_survey2.health_2mtl_main&quot;, engine)
 print(df)</code></pre>
+</div>
+</div>
+<div id="available-data-in-cedar-database" class="section level1">
+<h1>Available data in Cedar database</h1>
+<div id="survey-data" class="section level2">
+<h2>Survey data</h2>
+<p>All survey data is grouped under <code>tk_survey*</code> schemas, one
+schema per wave. The formatted answers, extracted from the completed
+surveys, is published in materialized views within each schema. Names
+are built from type of survey, wave, city and participant’s status (new
+(<code>&quot;new&quot;</code>) / returning (<code>&quot;&quot;</code>)).</p>
+<p>VERITAS survey encompasses several types of data that are extracted
+from the main questionnaire, namely regularly visited locations, social
+network (individuals and groups) and the links between those
+entities.</p>
+<ul>
+<li><a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#eligibility_questionnaire_title">Eligibility
+survey</a>:
+<ul>
+<li><p>Main questionnaire template name:
+<code>eligibility_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_main</code></p>
+<pre><code>  Schema   |           Name           
+-----------+--------------------------
+tk_survey  | eligibility_1mtl_main    
+tk_survey  | eligibility_1skt_main    
+tk_survey  | eligibility_1van_main    
+tk_survey  | eligibility_1vic_main    
+-----------+--------------------------
+tk_survey2 | eligibility_2mtl_main    
+tk_survey2 | eligibility_2mtlnew_main 
+tk_survey2 | eligibility_2skt_main    
+tk_survey2 | eligibility_2sktnew_main 
+tk_survey2 | eligibility_2van_main    
+tk_survey2 | eligibility_2vannew_main 
+tk_survey2 | eligibility_2vic_main    
+tk_survey2 | eligibility_2vicnew_main 
+-----------+--------------------------
+tk_survey3 | eligibility_3mtl_main    
+tk_survey3 | eligibility_3mtlnew_main 
+tk_survey3 | eligibility_3skt_main    
+tk_survey3 | eligibility_3sktnew_main 
+tk_survey3 | eligibility_3van_main    
+tk_survey3 | eligibility_3vannew_main 
+tk_survey3 | eligibility_3vic_main    
+tk_survey3 | eligibility_3vicnew_main 
+-----------+--------------------------
+tk_survey4 | eligibility_4mtl_main    
+tk_survey4 | eligibility_4mtlnew_main 
+tk_survey4 | eligibility_4skt_main    
+tk_survey4 | eligibility_4sktnew_main 
+tk_survey4 | eligibility_4van_main    
+tk_survey4 | eligibility_4vannew_main 
+tk_survey4 | eligibility_4vic_main    
+tk_survey4 | eligibility_4vicnew_main   </code></pre></li>
+</ul></li>
+<li><a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#health_questionnaire_title">Health
+survey</a>:
+<ul>
+<li><p>Main questionnaire template name:
+<code>health_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_main</code></p>
+<pre><code>  Schema   |        Name        
+-----------+---------------------
+tk_survey  | health_1mtl_main    
+tk_survey  | health_1skt_main    
+tk_survey  | health_1van_main    
+tk_survey  | health_1vic_main    
+tk_survey2 | health_2mtl_main    
+tk_survey2 | health_2mtlnew_main 
+tk_survey2 | health_2skt_main    
+tk_survey2 | health_2sktnew_main 
+tk_survey2 | health_2van_main    
+tk_survey2 | health_2vannew_main 
+tk_survey2 | health_2vic_main    
+tk_survey2 | health_2vicnew_main 
+tk_survey3 | health_3mtl_main    
+tk_survey3 | health_3mtlnew_main 
+tk_survey3 | health_3skt_main    
+tk_survey3 | health_3sktnew_main 
+tk_survey3 | health_3van_main    
+tk_survey3 | health_3vannew_main 
+tk_survey3 | health_3vic_main    
+tk_survey3 | health_3vicnew_main 
+tk_survey4 | health_4mtl_main    
+tk_survey4 | health_4mtlnew_main 
+tk_survey4 | health_4skt_main    
+tk_survey4 | health_4sktnew_main 
+tk_survey4 | health_4van_main    
+tk_survey4 | health_4vannew_main 
+tk_survey4 | health_4vic_main    
+tk_survey4 | health_4vicnew_main </code></pre></li>
+<li><p>Children questionnaire template name:
+<code>health_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_children</code>;
+contains a variable number of records for participants who declared
+living with children</p>
+<pre><code>  Schema   |          Name           
+-----------+-------------------------
+tk_survey  | health_1mtl_children    
+tk_survey  | health_1skt_children    
+tk_survey  | health_1van_children    
+tk_survey  | health_1vic_children    
+tk_survey2 | health_2mtl_children    
+tk_survey2 | health_2mtlnew_children 
+tk_survey2 | health_2skt_children    
+tk_survey2 | health_2sktnew_children 
+tk_survey2 | health_2van_children    
+tk_survey2 | health_2vannew_children 
+tk_survey2 | health_2vic_children    
+tk_survey2 | health_2vicnew_children 
+tk_survey3 | health_3mtl_children    
+tk_survey3 | health_3mtlnew_children 
+tk_survey3 | health_3skt_children    
+tk_survey3 | health_3sktnew_children 
+tk_survey3 | health_3van_children    
+tk_survey3 | health_3vannew_children 
+tk_survey3 | health_3vic_children    
+tk_survey3 | health_3vicnew_children 
+tk_survey4 | health_4mtl_children    
+tk_survey4 | health_4mtlnew_children 
+tk_survey4 | health_4skt_children    
+tk_survey4 | health_4sktnew_children 
+tk_survey4 | health_4van_children    
+tk_survey4 | health_4vannew_children 
+tk_survey4 | health_4vic_children    
+tk_survey4 | health_4vicnew_children </code></pre></li>
+</ul></li>
+<li><a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#veritas_questionnaire_title">VERITAS
+survey</a>:
+<ul>
+<li><p>Main questionnaire template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_main</code></p>
+<pre><code>  Schema   |         Name         
+-----------+----------------------
+tk_survey  | veritas_1mtl_main    
+tk_survey  | veritas_1skt_main    
+tk_survey  | veritas_1van_main    
+tk_survey  | veritas_1vic_main    
+tk_survey2 | veritas_2mtl_main    
+tk_survey2 | veritas_2mtlnew_main 
+tk_survey2 | veritas_2skt_main    
+tk_survey2 | veritas_2sktnew_main 
+tk_survey2 | veritas_2van_main    
+tk_survey2 | veritas_2vannew_main 
+tk_survey2 | veritas_2vic_main    
+tk_survey2 | veritas_2vicnew_main 
+tk_survey3 | veritas_3mtl_main    
+tk_survey3 | veritas_3mtlnew_main 
+tk_survey3 | veritas_3skt_main    
+tk_survey3 | veritas_3sktnew_main 
+tk_survey3 | veritas_3van_main    
+tk_survey3 | veritas_3vannew_main 
+tk_survey3 | veritas_3vic_main    
+tk_survey3 | veritas_3vicnew_main 
+tk_survey4 | veritas_4mtl_main    
+tk_survey4 | veritas_4mtlnew_main 
+tk_survey4 | veritas_4skt_main    
+tk_survey4 | veritas_4sktnew_main 
+tk_survey4 | veritas_4van_main    
+tk_survey4 | veritas_4vannew_main 
+tk_survey4 | veritas_4vic_main    
+tk_survey4 | veritas_4vicnew_main </code></pre></li>
+<li><p><a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#veritas_entity_title">Veritas
+entities</a>:</p>
+<ul>
+<li><p>Veritas location template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_location</code></p>
+<pre><code>  Schema   |         Name         
+-----------+----------------------
+tk_survey  | veritas_1mtl_location    
+tk_survey  | veritas_1skt_location    
+tk_survey  | veritas_1van_location    
+tk_survey  | veritas_1vic_location    
+tk_survey2 | veritas_2mtl_location    
+tk_survey2 | veritas_2mtlnew_location 
+tk_survey2 | veritas_2skt_location    
+tk_survey2 | veritas_2sktnew_location 
+tk_survey2 | veritas_2van_location    
+tk_survey2 | veritas_2vannew_location 
+tk_survey2 | veritas_2vic_location    
+tk_survey2 | veritas_2vicnew_location 
+tk_survey3 | veritas_3mtl_location    
+tk_survey3 | veritas_3mtlnew_location 
+tk_survey3 | veritas_3skt_location    
+tk_survey3 | veritas_3sktnew_location 
+tk_survey3 | veritas_3van_location    
+tk_survey3 | veritas_3vannew_location 
+tk_survey3 | veritas_3vic_location    
+tk_survey3 | veritas_3vicnew_location 
+tk_survey4 | veritas_4mtl_location    
+tk_survey4 | veritas_4mtlnew_location 
+tk_survey4 | veritas_4skt_location    
+tk_survey4 | veritas_4sktnew_location 
+tk_survey4 | veritas_4van_location    
+tk_survey4 | veritas_4vannew_location 
+tk_survey4 | veritas_4vic_location    
+tk_survey4 | veritas_4vicnew_location </code></pre></li>
+<li><p>Veritas area template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_poly_geom</code>:
+stores perceived residential neighborhood, area of improvement and area
+of deterioration</p>
+<pre><code>  Schema   |           Name            
+-----------+---------------------------
+tk_survey  | veritas_1mtl_poly_geom    
+tk_survey  | veritas_1skt_poly_geom    
+tk_survey  | veritas_1van_poly_geom    
+tk_survey  | veritas_1vic_poly_geom    
+tk_survey2 | veritas_2mtl_poly_geom    
+tk_survey2 | veritas_2mtlnew_poly_geom 
+tk_survey2 | veritas_2skt_poly_geom    
+tk_survey2 | veritas_2sktnew_poly_geom 
+tk_survey2 | veritas_2van_poly_geom    
+tk_survey2 | veritas_2vannew_poly_geom 
+tk_survey2 | veritas_2vic_poly_geom    
+tk_survey2 | veritas_2vicnew_poly_geom 
+tk_survey3 | veritas_3vic_poly_geom    
+tk_survey3 | veritas_3vicnew_poly_geom </code></pre></li>
+<li><p>Veritas social contact|individual template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_people</code></p>
+<pre><code>  Schema   |               Name               
+-----------+-----------------------
+tk_survey  | veritas_1mtl_people              
+tk_survey  | veritas_1skt_people              
+tk_survey  | veritas_1van_people              
+tk_survey  | veritas_1vic_people              
+-----------+-----------------------
+tk_survey2 | veritas_2mtl_people              
+tk_survey2 | veritas_2mtlnew_people           
+tk_survey2 | veritas_2skt_people              
+tk_survey2 | veritas_2sktnew_people           
+tk_survey2 | veritas_2van_people              
+tk_survey2 | veritas_2vannew_people           
+tk_survey2 | veritas_2vic_people              
+tk_survey2 | veritas_2vicnew_people           
+-----------+-----------------------
+tk_survey3 | veritas_3mtl_people              
+tk_survey3 | veritas_3mtlnew_people           
+tk_survey3 | veritas_3skt_people              
+tk_survey3 | veritas_3sktnew_people           
+tk_survey3 | veritas_3van_people              
+tk_survey3 | veritas_3vannew_people           
+tk_survey3 | veritas_3vic_people              
+tk_survey3 | veritas_3vicnew_people           </code></pre></li>
+<li><p>Veritas social contact|group template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_group</code></p>
+<pre><code>  Schema   |               Name               
+-----------+-----------------------
+tk_survey  | veritas_1mtl_people              
+tk_survey  | veritas_1skt_people              
+tk_survey  | veritas_1van_people              
+tk_survey  | veritas_1vic_people              
+-----------+-----------------------
+tk_survey2 | veritas_2mtl_people              
+tk_survey2 | veritas_2mtlnew_people           
+tk_survey2 | veritas_2skt_people              
+tk_survey2 | veritas_2sktnew_people           
+tk_survey2 | veritas_2van_people              
+tk_survey2 | veritas_2vannew_people           
+tk_survey2 | veritas_2vic_people              
+tk_survey2 | veritas_2vicnew_people           
+-----------+-----------------------
+tk_survey3 | veritas_3mtl_people              
+tk_survey3 | veritas_3mtlnew_people           
+tk_survey3 | veritas_3skt_people              
+tk_survey3 | veritas_3sktnew_people           
+tk_survey3 | veritas_3van_people              
+tk_survey3 | veritas_3vannew_people           
+tk_survey3 | veritas_3vic_people              
+tk_survey3 | veritas_3vicnew_people           </code></pre></li>
+<li><p>Veritas social entity relationship template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_relationship</code>:
+stores links between locations and social contact and among social
+contact</p>
+<pre><code>  Schema   |         Name          
+-----------+-----------------------
+tk_survey  | veritas_1mtl_group    
+tk_survey  | veritas_1skt_group    
+tk_survey  | veritas_1van_group    
+tk_survey  | veritas_1vic_group    
+-----------+-----------------------
+tk_survey2 | veritas_2mtl_group    
+tk_survey2 | veritas_2mtlnew_group 
+tk_survey2 | veritas_2skt_group    
+tk_survey2 | veritas_2sktnew_group 
+tk_survey2 | veritas_2van_group    
+tk_survey2 | veritas_2vannew_group 
+tk_survey2 | veritas_2vic_group    
+tk_survey2 | veritas_2vicnew_group 
+-----------+-----------------------
+tk_survey3 | veritas_3vic_group    
+tk_survey3 | veritas_3vicnew_group </code></pre></li>
+<li><p>Veritas social contact proximity:</p>
+<ul>
+<li><p>Important people template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_important_people</code></p>
+<pre><code>  Schema   |               Name               
+-----------+----------------------------------
+tk_survey  | veritas_1mtl_important_people    
+tk_survey  | veritas_1skt_important_people    
+tk_survey  | veritas_1van_important_people    
+tk_survey  | veritas_1vic_important_people    
+tk_survey2 | veritas_2mtl_important_people    
+tk_survey2 | veritas_2mtlnew_important_people 
+tk_survey2 | veritas_2skt_important_people    
+tk_survey2 | veritas_2sktnew_important_people 
+tk_survey2 | veritas_2van_important_people    
+tk_survey2 | veritas_2vannew_important_people 
+tk_survey2 | veritas_2vic_important_people    
+tk_survey2 | veritas_2vicnew_important_people 
+tk_survey3 | veritas_3mtl_important_people    
+tk_survey3 | veritas_3mtlnew_important_people 
+tk_survey3 | veritas_3skt_important_people    
+tk_survey3 | veritas_3sktnew_important_people             
+tk_survey3 | veritas_3van_important_people    
+tk_survey3 | veritas_3vannew_important_people 
+tk_survey3 | veritas_3vic_important_people    
+tk_survey3 | veritas_3vicnew_important_people </code></pre></li>
+<li><p>People socializing with participant template name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_socialize_people</code></p>
+<pre><code>  Schema   |               Name               
+-----------+----------------------------------
+tk_survey  | veritas_1mtl_socialize_people    
+tk_survey  | veritas_1skt_socialize_people    
+tk_survey  | veritas_1van_socialize_people    
+tk_survey  | veritas_1vic_socialize_people    
+tk_survey2 | veritas_2mtl_socialize_people    
+tk_survey2 | veritas_2mtlnew_socialize_people 
+tk_survey2 | veritas_2skt_socialize_people    
+tk_survey2 | veritas_2sktnew_socialize_people 
+tk_survey2 | veritas_2van_socialize_people    
+tk_survey2 | veritas_2vannew_socialize_people 
+tk_survey2 | veritas_2vic_socialize_people    
+tk_survey2 | veritas_2vicnew_socialize_people 
+tk_survey3 | veritas_3mtl_socialize_people    
+tk_survey3 | veritas_3mtlnew_socialize_people 
+tk_survey3 | veritas_3skt_socialize_people    
+tk_survey3 | veritas_3sktnew_socialize_people 
+tk_survey3 | veritas_3van_socialize_people    
+tk_survey3 | veritas_3vannew_socialize_people 
+tk_survey3 | veritas_3vic_socialize_people    
+tk_survey3 | veritas_3vicnew_socialize_people </code></pre></li>
+<li><p>People not so close to participant tempalte name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_not_close_people</code></p>
+<pre><code>  Schema   |               Name               
+-----------+----------------------------------
+tk_survey  | veritas_1mtl_not_close_people    
+tk_survey  | veritas_1skt_not_close_people    
+tk_survey  | veritas_1van_not_close_people    
+tk_survey  | veritas_1vic_not_close_people    
+tk_survey2 | veritas_2mtl_not_close_people    
+tk_survey2 | veritas_2mtlnew_not_close_people 
+tk_survey2 | veritas_2skt_not_close_people    
+tk_survey2 | veritas_2sktnew_not_close_people 
+tk_survey2 | veritas_2van_not_close_people    
+tk_survey2 | veritas_2vannew_not_close_people 
+tk_survey2 | veritas_2vic_not_close_people    
+tk_survey2 | veritas_2vicnew_not_close_people 
+tk_survey3 | veritas_3vic_not_close_people    
+tk_survey3 | veritas_3vicnew_not_close_people </code></pre></li>
+<li><p>People living with participant tempalte name:
+<code>veritas_&lt;WAVE&gt;&lt;CITY&gt;&lt;STATUS&gt;_household_people</code></p>
+<pre><code>  Schema   |               Name               
+-----------+----------------------------------
+tk_survey3 | veritas_3mtl_household_people    
+tk_survey3 | veritas_3mtlnew_household_people 
+tk_survey3 | veritas_3skt_household_people    
+tk_survey3 | veritas_3sktnew_household_people 
+tk_survey3 | veritas_3van_household_people    
+tk_survey3 | veritas_3vannew_household_people </code></pre></li>
+</ul></li>
+<li><p>Past residential addresses template name (Montréal only):
+<code>veritas_&lt;WAVE&gt;mtl&lt;STATUS&gt;_historical_address</code></p>
+<pre><code>  Schema   |                Name                
+-----------+------------------------------------
+tk_survey  | veritas_1mtl_historical_address    
+tk_survey2 | veritas_2mtlnew_historical_address 
+tk_survey4 | veritas_4mtl_historical_address    
+tk_survey4 | veritas_4mtlnew_historical_address </code></pre></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="essence-table" class="section level2">
+<h2>Essence table</h2>
+<p>The <a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#essence_title">Essence
+Table</a> comprises a selection of the most commonly used INTERACT
+variables combined with a series of derived variables for participants
+from all cities and waves. All variables have been harmonized across all
+cities and waves for easier comparison, hence some original variables
+might get a slightly modified list of category options.</p>
+<p>The essence table is stored in its proper <code>essence_table</code>
+schema. The variables are grouped under four thematic groups, each with
+its own table.</p>
+<ul>
+<li><code>essence_health</code>: harmonized core health variables across
+all cities/waves</li>
+<li><code>essence_activity_space</code>: basic aggregated statistics
+about the VERITAS locations</li>
+<li><code>essence_perchoux_tbx</code>: aggregated statistics based on <a href="https://doi.org/10.1016/j.socscimed.2014.07.026">Camille
+Perchoux’s spatial metric toolbox</a></li>
+<li><code>essence_naud_social</code>: aggregated social network metrics
+based on <a href="https://doi.org/10.1016/j.healthplace.2020.102454">Alexandre
+Naud’s toolbox</a></li>
+<li><code>essence_neighborhood500m</code>: 500m network buffers around
+participant’s home (polygons)</li>
+</ul>
+</div>
+<div id="ecological-momentary-assessment-ema" class="section level2">
+<h2>Ecological Momentary Assessment (EMA)</h2>
+<p><a href="https://teaminteract.ca/ressources/INTERACT_datadict.html#ema_title">Ecological
+momentary assessment (EMA)</a> involves repeated sampling of the
+participants’ wellbeing in real time, and in their natural environments.
+It relies on the EthicaApp running on the participants’ smartphone to
+capture their responses to various prompts up to three times per
+day.</p>
+<p>EMAs are stored in schemas <code>ema*</code>, one per wave, with each
+city having its own table: <code>mtl</code>, <code>skt</code>,
+<code>van</code> and <code>vic</code> within each scehma.</p>
+<pre><code> Schema | Name 
+--------+------
+ ema    | mtl  
+ ema    | skt  
+ ema    | van  
+ ema    | vic  
+--------+------
+ ema2   | mtl  
+ ema2   | skt  
+ ema2   | van  
+ ema2   | vic  
+--------+------
+ ema3   | mtl  
+ ema3   | skt  
+ ema3   | van  
+ ema3   | vic  </code></pre>
+</div>
+<div id="table-of-power-top" class="section level2">
+<h2>Table of Power (ToP)</h2>
+<p>The tables of power store combined accelerometry and location data
+from SenseDoc (and eventually from Ethica) at 2 different epochs – 1
+minute and 1 second. Accelerometry is aggregagted at each level through
+Actigraph-like counts (see <a href="https://doi.org/10.1123/jmpb.2019-0063">ref</a>).</p>
+<p>SenseDoc ToPs are published in <code>top_sd*</code> schemas, one per
+wave, with each city and epoch stored in a separate table.</p>
+<pre><code> Schema  |     Name     
+---------+--------------
+ top_sd  | top_1min_mtl 
+ top_sd  | top_1min_skt 
+ top_sd  | top_1min_van 
+ top_sd  | top_1min_vic 
+ top_sd  | top_1sec_mtl 
+ top_sd  | top_1sec_skt 
+ top_sd  | top_1sec_van 
+ top_sd  | top_1sec_vic 
+---------+--------------
+ top_sd2 | top_1min_mtl 
+ top_sd2 | top_1min_skt 
+ top_sd2 | top_1min_van 
+ top_sd2 | top_1min_vic 
+ top_sd2 | top_1sec_mtl 
+ top_sd2 | top_1sec_skt 
+ top_sd2 | top_1sec_van 
+ top_sd2 | top_1sec_vic 
+---------+--------------
+ top_sd3 | top_1min_mtl 
+ top_sd3 | top_1min_skt 
+ top_sd3 | top_1min_van 
+ top_sd3 | top_1min_vic 
+ top_sd3 | top_1sec_mtl 
+ top_sd3 | top_1sec_skt 
+ top_sd3 | top_1sec_van 
+ top_sd3 | top_1sec_vic </code></pre>
 </div>
 </div>
 
