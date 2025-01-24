@@ -216,6 +216,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey  | health_1skt_main    
     tk_survey  | health_1van_main    
     tk_survey  | health_1vic_main    
+    -----------+---------------------
     tk_survey2 | health_2mtl_main    
     tk_survey2 | health_2mtlnew_main 
     tk_survey2 | health_2skt_main    
@@ -224,6 +225,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey2 | health_2vannew_main 
     tk_survey2 | health_2vic_main    
     tk_survey2 | health_2vicnew_main 
+    -----------+---------------------
     tk_survey3 | health_3mtl_main    
     tk_survey3 | health_3mtlnew_main 
     tk_survey3 | health_3skt_main    
@@ -232,6 +234,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey3 | health_3vannew_main 
     tk_survey3 | health_3vic_main    
     tk_survey3 | health_3vicnew_main 
+    -----------+---------------------
     tk_survey4 | health_4mtl_main    
     tk_survey4 | health_4mtlnew_main 
     tk_survey4 | health_4skt_main    
@@ -250,6 +253,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey  | health_1skt_children    
     tk_survey  | health_1van_children    
     tk_survey  | health_1vic_children    
+    -----------+-------------------------
     tk_survey2 | health_2mtl_children    
     tk_survey2 | health_2mtlnew_children 
     tk_survey2 | health_2skt_children    
@@ -258,6 +262,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey2 | health_2vannew_children 
     tk_survey2 | health_2vic_children    
     tk_survey2 | health_2vicnew_children 
+    -----------+-------------------------
     tk_survey3 | health_3mtl_children    
     tk_survey3 | health_3mtlnew_children 
     tk_survey3 | health_3skt_children    
@@ -266,6 +271,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey3 | health_3vannew_children 
     tk_survey3 | health_3vic_children    
     tk_survey3 | health_3vicnew_children 
+    -----------+-------------------------
     tk_survey4 | health_4mtl_children    
     tk_survey4 | health_4mtlnew_children 
     tk_survey4 | health_4skt_children    
@@ -284,6 +290,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey  | veritas_1skt_main    
     tk_survey  | veritas_1van_main    
     tk_survey  | veritas_1vic_main    
+    -----------+----------------------
     tk_survey2 | veritas_2mtl_main    
     tk_survey2 | veritas_2mtlnew_main 
     tk_survey2 | veritas_2skt_main    
@@ -292,6 +299,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey2 | veritas_2vannew_main 
     tk_survey2 | veritas_2vic_main    
     tk_survey2 | veritas_2vicnew_main 
+    -----------+----------------------
     tk_survey3 | veritas_3mtl_main    
     tk_survey3 | veritas_3mtlnew_main 
     tk_survey3 | veritas_3skt_main    
@@ -300,6 +308,7 @@ visited locations, social network (individuals and groups) and the links between
     tk_survey3 | veritas_3vannew_main 
     tk_survey3 | veritas_3vic_main    
     tk_survey3 | veritas_3vicnew_main 
+    -----------+----------------------
     tk_survey4 | veritas_4mtl_main    
     tk_survey4 | veritas_4mtlnew_main 
     tk_survey4 | veritas_4skt_main    
@@ -318,6 +327,7 @@ visited locations, social network (individuals and groups) and the links between
       tk_survey  | veritas_1skt_location    
       tk_survey  | veritas_1van_location    
       tk_survey  | veritas_1vic_location    
+      -----------+----------------------
       tk_survey2 | veritas_2mtl_location    
       tk_survey2 | veritas_2mtlnew_location 
       tk_survey2 | veritas_2skt_location    
@@ -326,6 +336,7 @@ visited locations, social network (individuals and groups) and the links between
       tk_survey2 | veritas_2vannew_location 
       tk_survey2 | veritas_2vic_location    
       tk_survey2 | veritas_2vicnew_location 
+      -----------+----------------------
       tk_survey3 | veritas_3mtl_location    
       tk_survey3 | veritas_3mtlnew_location 
       tk_survey3 | veritas_3skt_location    
@@ -334,6 +345,7 @@ visited locations, social network (individuals and groups) and the links between
       tk_survey3 | veritas_3vannew_location 
       tk_survey3 | veritas_3vic_location    
       tk_survey3 | veritas_3vicnew_location 
+      -----------+----------------------
       tk_survey4 | veritas_4mtl_location    
       tk_survey4 | veritas_4mtlnew_location 
       tk_survey4 | veritas_4skt_location    
@@ -352,6 +364,7 @@ visited locations, social network (individuals and groups) and the links between
       tk_survey  | veritas_1skt_poly_geom    
       tk_survey  | veritas_1van_poly_geom    
       tk_survey  | veritas_1vic_poly_geom    
+      -----------+---------------------------
       tk_survey2 | veritas_2mtl_poly_geom    
       tk_survey2 | veritas_2mtlnew_poly_geom 
       tk_survey2 | veritas_2skt_poly_geom    
@@ -360,6 +373,7 @@ visited locations, social network (individuals and groups) and the links between
       tk_survey2 | veritas_2vannew_poly_geom 
       tk_survey2 | veritas_2vic_poly_geom    
       tk_survey2 | veritas_2vicnew_poly_geom 
+      -----------+---------------------------
       tk_survey3 | veritas_3vic_poly_geom    
       tk_survey3 | veritas_3vicnew_poly_geom 
       ```
@@ -448,6 +462,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey  | veritas_1skt_important_people    
         tk_survey  | veritas_1van_important_people    
         tk_survey  | veritas_1vic_important_people    
+        -----------+----------------------------------
         tk_survey2 | veritas_2mtl_important_people    
         tk_survey2 | veritas_2mtlnew_important_people 
         tk_survey2 | veritas_2skt_important_people    
@@ -456,6 +471,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey2 | veritas_2vannew_important_people 
         tk_survey2 | veritas_2vic_important_people    
         tk_survey2 | veritas_2vicnew_important_people 
+        -----------+----------------------------------
         tk_survey3 | veritas_3mtl_important_people    
         tk_survey3 | veritas_3mtlnew_important_people 
         tk_survey3 | veritas_3skt_important_people    
@@ -473,6 +489,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey  | veritas_1skt_socialize_people    
         tk_survey  | veritas_1van_socialize_people    
         tk_survey  | veritas_1vic_socialize_people    
+        -----------+----------------------------------
         tk_survey2 | veritas_2mtl_socialize_people    
         tk_survey2 | veritas_2mtlnew_socialize_people 
         tk_survey2 | veritas_2skt_socialize_people    
@@ -481,6 +498,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey2 | veritas_2vannew_socialize_people 
         tk_survey2 | veritas_2vic_socialize_people    
         tk_survey2 | veritas_2vicnew_socialize_people 
+        -----------+----------------------------------
         tk_survey3 | veritas_3mtl_socialize_people    
         tk_survey3 | veritas_3mtlnew_socialize_people 
         tk_survey3 | veritas_3skt_socialize_people    
@@ -498,6 +516,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey  | veritas_1skt_not_close_people    
         tk_survey  | veritas_1van_not_close_people    
         tk_survey  | veritas_1vic_not_close_people    
+        -----------+----------------------------------
         tk_survey2 | veritas_2mtl_not_close_people    
         tk_survey2 | veritas_2mtlnew_not_close_people 
         tk_survey2 | veritas_2skt_not_close_people    
@@ -506,6 +525,7 @@ visited locations, social network (individuals and groups) and the links between
         tk_survey2 | veritas_2vannew_not_close_people 
         tk_survey2 | veritas_2vic_not_close_people    
         tk_survey2 | veritas_2vicnew_not_close_people 
+        -----------+----------------------------------
         tk_survey3 | veritas_3vic_not_close_people    
         tk_survey3 | veritas_3vicnew_not_close_people 
         ```
