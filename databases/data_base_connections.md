@@ -1,7 +1,7 @@
 ---
 title: "Databases and Compute Canada"
 author: "Daniel Fuller, Benoit Thierry"
-date: "2025-01-24"
+date: "2025-02-05"
 output:
   html_document:
     keep_md: yes
@@ -591,6 +591,11 @@ EMAs are stored in schemas `ema*`, one per wave, with each city having its own t
  ema3   | skt  
  ema3   | van  
  ema3   | vic  
+--------+------
+ ema4   | mtl  
+ ema4   | skt  
+ ema4   | van  
+ ema4   | vic  
 ```
 
 ## Table of Power (ToP)
