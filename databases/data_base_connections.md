@@ -1,7 +1,7 @@
 ---
 title: "Databases and Compute Canada"
 author: "Daniel Fuller, Benoit Thierry"
-date: "2025-02-05"
+date: "2025-09-08"
 output:
   html_document:
     keep_md: yes
@@ -20,6 +20,7 @@ These are the steps you will need to follow
 1. Install PostgreSQL on your system. You can find the necessary files [here](https://www.postgresql.org/download/) (_NB:_ you may need to add the path to the PostgreSQL bin to your system PATH env variable)
 2. Install pgAdmin on your system (optional). You can find the necessary files [here](https://www.pgadmin.org/download/)
 3. Check that you have a SSH client installed; if not Install the latest version of Microsoft PowerShell (which includes a ssh client). You can find the necessary files [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+4. Request a personal PostgreSQL database on Cedar; no need for a big one, its purpose is simply to get a pg role on the cluster (see [doc](https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server))
   
 You will now setup the connection to the server with the data. You will need to have Compute Canada credentials and a SSH client (included with PowerShell).
 
@@ -28,7 +29,7 @@ You will now setup the connection to the server with the data. You will need to 
 In order to access the CC database and work locally with the data, you will need to open a SSH tunnel that will map the remote database to a local address on your computer (more details can be found on [CC Wiki](https://docs.alliancecan.ca/wiki/SSH_tunnelling)). From a PowerShell or another Shell on UNIX flavored OSes, create the SSH tunnel:
 
 ```sh
-ssh -L 5433:cedar-pgsql-vm.int.cedar.computecanada.ca:5432 <YOUR_CC_USERNAME>@cedar.computecanada.ca 
+ssh -L 5433:cedar-pgsql-vm.int.cedar.computecanada.ca:5432 <YOUR_CC_USERNAME>@fir.alliancecan.ca 
 ```
 
 This will let you access the CC database cluster from your computer at the address `localhost:5433`. (You can use another port instead of `5433` if this one is already in use.) **The shell from which the ssh tunnel has been opened needs to stay open for the duration of your database work.**
@@ -39,14 +40,7 @@ Once the SSH tunnel created, you can access the `interact_db` target database us
 psql -U <YOUR_CC_USERNAME> -h localhost -p 5433 interact_db
 ```
 
-Use the command below to get into CC 
-
-```sh
-psql -h cedar-pgsql-vm -d interact_db
-```
-
 (_NB._ The `psql` command issued on a CC node is different, more can be found on [CC wiki](https://docs.alliancecan.ca/wiki/Database_servers#Cedar_PostgreSQL_server).)
-
 
 Note that once the SSH tunnel has been established, you will no longer have to provide your password, nor save it somewhere in your script as all users logged on CC are automatically authenticated on the database cluster.
 
@@ -68,7 +62,8 @@ interact_db=>\dn+ tk_survey*
  tk_survey  | Stores wave 1 survey data from Treksoft as well as reformatting views
  tk_survey2 | Stores wave 2 survey data from Treksoft as well as reformatting views
  tk_survey3 | Stores wave 3 survey data from Treksoft as well as reformatting views
-(3 rows)
+ tk_survey4 | Stores wave 4 survey data from Treksoft as well as reformatting views
+(4 rows)
 ```
 
 Within each schema, data is organized in materialized views (see [definition](https://www.postgresql.org/docs/16/glossary.html#GLOSSARY-MATERIALIZED-VIEW)) with names expressing the survey type (`eligibility`, `health`, `veritas`), the city (`mtl`, `skt`, `van`, `vic`) prefixed with the wave number and the subcategory of data extracted from the survey (`main` or other subcategories, depending on the survey type). From wave 2 on, returning and new participants have separate materialized views, with a `new` suffix appended to names of materialized views of new participants.
